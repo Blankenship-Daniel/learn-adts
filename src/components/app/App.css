@@ -1,0 +1,13 @@
+.App {
+  text-align: center;
+}
+.App-table-of-contents {
+  display: flex;
+}
+.App-table-of-contents ul {
+  width: 100%;
+  padding: 0 10px;
+  display: inline-flex;
+  list-style-type: none;
+  justify-content: space-between;
+}
