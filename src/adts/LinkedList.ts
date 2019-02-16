@@ -4,7 +4,7 @@ export class LinkedList<t> {
   public length: number = 0;
   private head: Node<t>;
 
-  public append(elem: any): void {
+  public append(elem: t): void {
     const node: Node<t> = new Node();
     node.elem = elem;
     let current: Node<t>;
@@ -21,9 +21,12 @@ export class LinkedList<t> {
     current.next = node;
   }
 
-  public removeAt(pos: number): t | null {
+  public removeAt(pos: number): t {
+    if (this.length === 0) {
+      throw new Error("Cannot remove from an empty list");
+    }
     if (pos < 0 || pos >= this.length) {
-      return null;
+      throw new Error(`Position ${pos} is out of range`);
     }
     let current: Node<t> = this.head;
     let previous: Node<t> = current;
@@ -43,27 +46,37 @@ export class LinkedList<t> {
   }
 
   public insert(elem: t, pos: number): boolean {
-    if (pos >= 0 || pos >= this.length) {
-      return false;
+    if (pos < 0 || pos > this.length) {
+      throw new Error(`Position ${pos} is out of range`);
     }
     let current: Node<t> = this.head;
     let index: number = 0;
     let previous = current;
-    const node = new Node<t>();
-    node.elem = elem;
+    const insertNode = new Node<t>();
+    insertNode.elem = elem;
 
     this.length++;
     if (pos === 0) {
-      node.next = current;
-      this.head = node;
+      insertNode.next = current;
+      this.head = insertNode;
       return true;
     }
     while (index++ < pos) {
       previous = current;
       current = current.next;
     }
-    node.next = current;
-    previous.next = node;
+    insertNode.next = current;
+    previous.next = insertNode;
     return true;
+  }
+
+  public toString(): string {
+    let current: Node<t> = this.head;
+    let data: string = "";
+    while (current) {
+      data += current.next ? `${current.elem}, ` : current.elem;
+      current = current.next;
+    }
+    return data;
   }
 }
